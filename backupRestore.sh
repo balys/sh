@@ -4,7 +4,7 @@
 
 # vars
 username=$1
-backupserver="10.1.3.241"
+backupserver="123.123.123.123"
 temphomedir="/home"
 
 nr=`cat /root/serverBackupNr`
@@ -26,14 +26,14 @@ echo "Account Backup restoration tool"
 echo "--------------------------------------------"
 echo "Connecting to $backupserver server.."
 
-ssh -qt root@$backupserver -p 9988 "stat --format=%z /backup$nr/$serverID/weekly/$username/homedir | awk '{print \$1;}' > $username-homedir.txt;
+ssh -qt root@$backupserver -p 5522 "stat --format=%z /backup$nr/$serverID/weekly/$username/homedir | awk '{print \$1;}' > $username-homedir.txt;
 stat --format=%z /backup$nr/$serverID/weekly/$username/cpmove-$username.tar.gz | awk '{print \$1;}' > $username-cpmove.txt;
 echo;"
 
 #--------------------------------------------------
 
-scp -P 9988 root@$backupserver:/root/$username-homedir.txt $username-homedir.txt
-scp -P 9988 root@$backupserver:/root/$username-cpmove.txt $username-cpmove.txt
+scp -P 5522 root@$backupserver:/root/$username-homedir.txt $username-homedir.txt
+scp -P 5522 root@$backupserver:/root/$username-cpmove.txt $username-cpmove.txt
 
 
 if [ -n $username-homedir.txt ]; then homedirdate=`cat $username-homedir.txt`
